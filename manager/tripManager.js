@@ -10,7 +10,7 @@ class TripManager {
   /**
    * Polygon is a geoJson. It is already in lon lat form.
    */
-  getTripsWithinPolygon(polygonJsonString){
+  getTripsWithinPolygon(polygonJsonString, numRows){
     let self = this;
     return this.models.Trip.findAll({
       where: self.models.sequelize.and(
@@ -36,7 +36,8 @@ class TripManager {
           ),
           self.models.sequelize.col('dropoff')
         )
-      )
+      ),
+      limit: numRows
     });
   }
 }

@@ -25,7 +25,7 @@ describe('tripManager', function(){
           [-71.1776585052917, 42.3902909739571]
         ]
       ]
-    }))
+    }), 100)
     .then(function(result){
       expect(result).to.be.empty;
     });
@@ -41,7 +41,7 @@ describe('tripManager', function(){
           [-73.991057, 40.882309]
         ]
       ]
-    }))
+    }), 100)
     .then(function(result){
       expect(result).to.not.be.empty;
     });

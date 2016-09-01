@@ -9,6 +9,8 @@ module.exports = function(options){
   let tripManager = require('../manager/tripManager')(models);
 
   app.get(prefix+'trip', function(req, res){
+    var numRows = req.query.numRows !== undefined ?
+      parseInt(req.query.numRows) : 10000;
     tripManager.getTripsWithinPolygon(req.query.polygon)
     .then(function(results){
       let json = {
