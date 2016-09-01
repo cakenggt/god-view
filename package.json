@@ -4,11 +4,12 @@
   "description": "Uber god-view server and frontend",
   "main": "index.js",
   "dependencies": {
+    "body-parser": "^1.15.2",
+    "csv": "^1.1.0",
+    "express": "^4.14.0",
     "pg": "^6.1.0",
-    "sequelize": "^3.24.1"
-  },
-  "devDependencies": {
-    "csv": "^1.1.0"
+    "sequelize": "^3.24.1",
+    "yargs": "^5.0.0"
   },
   "scripts": {
     "test": "mocha",
@@ -20,5 +21,9 @@
     "god-view"
   ],
   "author": "Alec Lownes",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "^3.5.0",
+    "mocha": "^3.0.2"
+  }
 }

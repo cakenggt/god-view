@@ -1,6 +1,7 @@
 var fs = require('fs');
 var parse = require('csv-parse');
 var Sequelize = require('sequelize');
+var argv = require('yargs').argv;
 
 var credentials = require('../credentials');
 
@@ -17,7 +18,8 @@ var models = db.import('../models');
 
 var basePath = 'uber-tlc-foil-response/uber-trip-data/uber-raw-data-';
 
-var limit = 10000;
+var limit = argv.records || 10000;
+console.log(argv);
 
 var rowNum = -1;
 var result = [];
