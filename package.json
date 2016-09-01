@@ -1,0 +1,24 @@
+{
+  "name": "godber",
+  "version": "1.0.0",
+  "description": "Uber god-view server and frontend",
+  "main": "index.js",
+  "dependencies": {
+    "pg": "^6.1.0",
+    "sequelize": "^3.24.1"
+  },
+  "devDependencies": {
+    "csv": "^1.1.0"
+  },
+  "scripts": {
+    "test": "mocha",
+    "start": "node index.js",
+    "upload": "node util/convertData.js"
+  },
+  "keywords": [
+    "uber",
+    "god-view"
+  ],
+  "author": "Alec Lownes",
+  "license": "ISC"
+}
