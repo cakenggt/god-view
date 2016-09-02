@@ -3,7 +3,7 @@ import React from 'react';
 import {render} from 'react-dom';
 import * as Network from './Network';
 import {GOOGLE_MAPS_API_KEY} from '../credentials';
-import {GoogleApiWrapper} from 'google-maps-react';
+import {GoogleApiWrapper, Map} from 'google-maps-react';
 
 var Container = React.createClass({
   getInitialState: function() {
@@ -25,20 +25,26 @@ var Container = React.createClass({
     Network.getAll(this, points, 10000);
   },
   render: function() {
+    const style = {
+      width: '100%',
+      height: '100%'
+    };
+    const empireStateBuilding = {
+      lat: 40.748817,
+      lng: -73.985428
+    };
     return (
-      <div>
-        Done
-        <div className="content">
-          {React.Children.map(this.props.children, child => {
-            return React.cloneElement(child, {
-              data: this.state,
-              changeData: this.changeData,
-              sort: this.sort
-            });
-          })}
-        </div>
+      <div style={style}>
+        <Map
+          google={window.google}
+          onReady={this.getMapReference}
+          initialCenter={empireStateBuilding}
+          />
       </div>
     );
+  },
+  getMapReference: function(mapProps, map){
+    this.setState({map: map});
   }
 });
 
