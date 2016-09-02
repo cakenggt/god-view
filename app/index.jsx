@@ -4,6 +4,7 @@ import {render} from 'react-dom';
 import * as Network from './Network';
 import {GOOGLE_MAPS_API_KEY} from '../credentials';
 import {GoogleApiWrapper, Map} from 'google-maps-react';
+import {Controls} from './Controls.jsx';
 
 var Container = React.createClass({
   getInitialState: function() {
@@ -19,10 +20,6 @@ var Container = React.createClass({
       {
         lng:-74.090263,
         lat: 40.558339
-      },
-      {
-        lng:-73.991057,
-        lat: 40.882309
       }
     ];
     return {
@@ -31,11 +28,12 @@ var Container = React.createClass({
       polyNodes: polyNodes,
       polygon: null,
       map: null,
-      filters: {}
+      filters: {},
+      maxRows: 10000
     };
   },
   componentDidMount: function() {
-    Network.getAll(this, this.state.polyNodes, 10000);
+    this.getTripsAndApplyFilters();
   },
   render: function() {
     const style = {
@@ -48,11 +46,21 @@ var Container = React.createClass({
     };
     return (
       <div style={style}>
-        <Map
-          google={window.google}
-          onReady={this.getMapReference}
-          initialCenter={empireStateBuilding}
-          zoom={11}
+        <div
+          style={{width:'80%',height:'100%',float:'right'}}
+          >
+          <Map
+            google={window.google}
+            onReady={this.getMapReference}
+            initialCenter={empireStateBuilding}
+            zoom={11}
+            />
+        </div>
+        <Controls
+          filteredTrips={this.state.filteredTrips}
+          polyNodes={this.state.polyNodes}
+          maxRows={this.state.maxRows}
+          setPoly={this.setPoly}
           />
       </div>
     );
@@ -71,6 +79,28 @@ var Container = React.createClass({
       map: map
     });
     polygon.setMap(map);
+  },
+  getTripsAndApplyFilters(){
+    Network.getAll(this, this.state.polyNodes, this.state.maxRows)
+    .then(this.applyFilters);
+  },
+  applyFilters: function(){
+    var filterKeys = Object.keys(this.state.filters);
+    var filteredTrips = this.state.trips.filter(function(val, index, array){
+      for (var k = 0; k < filterKeys.length; k++){
+        var keep = this.state.filters[filterKeys[k]](val, index, array);
+        if (!keep){
+          return false;
+        }
+      }
+      return true;
+    }, this);
+    this.setState({filteredTrips: filteredTrips});
+  },
+  setPoly: function(polyNodes){
+    this.setState({polyNodes: polyNodes});
+    this.state.polygon.setPaths(polyNodes);
+    this.getTripsAndApplyFilters();
   }
 });
 

@@ -3,6 +3,9 @@ function getAll(component, points, numRows){
   var linkedPoints = points.slice(0);
   //Linking the polygon back to its beginning
   linkedPoints.push(linkedPoints[0]);
+  var geoJsonPoints = linkedPoints.map(function(point){
+    return [point.lng, point.lat];
+  });
   return $.ajax({
     url: route,
     type: 'GET',
@@ -11,7 +14,7 @@ function getAll(component, points, numRows){
       polygon: JSON.stringify({
         "type": "Polygon",
         "coordinates": [
-          linkedPoints
+          geoJsonPoints
         ]
       })
     }
