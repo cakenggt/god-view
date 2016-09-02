@@ -53,6 +53,7 @@ var Container = React.createClass({
             polyNodes={this.state.polyNodes}
             maxRows={this.state.maxRows}
             setPoly={this.setPoly}
+            setMaxRows={this.setMaxRows}
             map={this.state.map}
             />
         </div>
@@ -84,8 +85,14 @@ var Container = React.createClass({
     });
     polygon.setMap(map);
   },
-  getTripsAndApplyFilters(){
-    Network.getAll(this, this.state.polyNodes, this.state.maxRows)
+  getTripsAndApplyFilters(options){
+    var maxRows = this.state.maxRows;
+    var polyNodes = this.state.polyNodes;
+    if (options){
+      maxRows = options.maxRows || maxRows;
+      polyNodes = options.polyNodes || polyNodes;
+    }
+    Network.getAll(this, polyNodes, maxRows)
     .then(this.applyFilters);
   },
   applyFilters: function(){
@@ -104,7 +111,15 @@ var Container = React.createClass({
   setPoly: function(polyNodes){
     this.setState({polyNodes: polyNodes});
     this.state.polygon.setPaths(polyNodes);
-    this.getTripsAndApplyFilters();
+    this.getTripsAndApplyFilters({
+      polyNodes: polyNodes
+    });
+  },
+  setMaxRows: function(maxRows){
+    this.setState({maxRows: maxRows});
+    this.getTripsAndApplyFilters({
+      maxRows: maxRows
+    });
   }
 });
 

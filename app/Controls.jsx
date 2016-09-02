@@ -16,6 +16,10 @@ var Controls = React.createClass({
           setPoly={this.props.setPoly}
           map={this.props.map}
           />
+        <MaxRows
+          maxRows={this.props.maxRows}
+          setMaxRows={this.props.setMaxRows}
+          />
       </div>
     )
   }
@@ -99,6 +103,34 @@ var Coords = React.createClass({
   },
   setPoly: function(polyNodes){
     this.props.setPoly(polyNodes);
+  }
+});
+
+var MaxRows = React.createClass({
+  getInitialState: function(){
+    return {
+      maxRows: this.props.maxRows
+    };
+  },
+  render: function(){
+    return (
+      <div
+        className="maxRows">
+        Max Rows &nbsp;
+        <input
+          type="Number"
+          value={this.state.maxRows}
+          onChange={this.setMaxRows}
+          />
+      </div>
+    );
+  },
+  setMaxRows: function(e){
+    var maxRows = parseInt(e.target.value);
+    if (!isNaN(maxRows)){
+      this.setState({maxRows: maxRows});
+      this.props.setMaxRows(maxRows);
+    }
   }
 });
 
