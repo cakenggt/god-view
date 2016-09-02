@@ -47,7 +47,7 @@ var Container = React.createClass({
     return (
       <div style={style}>
         <div
-          style={{width:'20%',height:'100%',position:'relative',float:'left'}}>
+          className="left-pane">
           <Controls
             filteredTrips={this.state.filteredTrips}
             polyNodes={this.state.polyNodes}
@@ -57,7 +57,7 @@ var Container = React.createClass({
             />
         </div>
         <div
-          style={{width:'80%',height:'100%',position:'relative',float:'right'}}
+          className="right-pane"
           >
           <Map
             google={window.google}
@@ -76,7 +76,7 @@ var Container = React.createClass({
       strokeOpacity: 0.8,
       strokeWeight: 2,
       fillColor: '#0000FF',
-      fillOpacity: 0.35
+      fillOpacity: 0.35,
     });
     this.setState({
       polygon: polygon,

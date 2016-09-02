@@ -44,6 +44,7 @@ var Coords = React.createClass({
       window.google.maps.event.addListener(nextProps.map, 'click', function(event) {
         var polyNodeStr = self.state.polyNodeStr;
         polyNodeStr += '\n'+event.latLng.lat()+' '+event.latLng.lng();
+        polyNodeStr = polyNodeStr.trim();
         self.setState({polyNodeStr: polyNodeStr});
         self.setStatePolyNodes(polyNodeStr);
       });
@@ -60,12 +61,6 @@ var Coords = React.createClass({
           onChange={this.changeStr}
           rows={6}
           />
-        <br/>
-        <button
-          onClick={this.setPoly}
-        >
-          Change Polygon
-        </button>
       </div>
     )
   },
@@ -98,9 +93,12 @@ var Coords = React.createClass({
       }
     }
     this.setState({polyNodes: newPolyNodes});
+    if (newPolyNodes.length > 2){
+      this.setPoly(newPolyNodes);
+    }
   },
-  setPoly: function(){
-    this.props.setPoly(this.state.polyNodes);
+  setPoly: function(polyNodes){
+    this.props.setPoly(polyNodes);
   }
 });
 

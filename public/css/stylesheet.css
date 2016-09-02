@@ -8,3 +8,15 @@ body {
   display: inline-block;
   background-color: #f7f7f7;
 }
+.left-pane {
+  width: 20%;
+  height: 100%;
+  position: relative;
+  float: left;
+}
+.right-pane {
+  width: 80%;
+  height: 100%;
+  position: relative;
+  float: right;
+}
