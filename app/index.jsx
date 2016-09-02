@@ -47,7 +47,17 @@ var Container = React.createClass({
     return (
       <div style={style}>
         <div
-          style={{width:'80%',height:'100%',float:'right'}}
+          style={{width:'20%',height:'100%',position:'relative',float:'left'}}>
+          <Controls
+            filteredTrips={this.state.filteredTrips}
+            polyNodes={this.state.polyNodes}
+            maxRows={this.state.maxRows}
+            setPoly={this.setPoly}
+            map={this.state.map}
+            />
+        </div>
+        <div
+          style={{width:'80%',height:'100%',position:'relative',float:'right'}}
           >
           <Map
             google={window.google}
@@ -56,12 +66,6 @@ var Container = React.createClass({
             zoom={11}
             />
         </div>
-        <Controls
-          filteredTrips={this.state.filteredTrips}
-          polyNodes={this.state.polyNodes}
-          maxRows={this.state.maxRows}
-          setPoly={this.setPoly}
-          />
       </div>
     );
   },

@@ -14,6 +14,7 @@ var Controls = React.createClass({
         <Coords
           polyNodes={this.state.polyNodes}
           setPoly={this.props.setPoly}
+          map={this.props.map}
           />
       </div>
     )
@@ -31,12 +32,29 @@ var Coords = React.createClass({
     polyNodeStr = polyNodeStr.substring(0, polyNodeStr.length-1);
     return {
       polyNodes: polyNodes,
-      polyNodeStr: polyNodeStr
+      polyNodeStr: polyNodeStr,
+      google: null
     };
+  },
+  componentWillReceiveProps: function(nextProps){
+    if ((!this.state.google || !this.props.map) &&
+        (window.google && nextProps.map)){
+      this.setState({google: window.google});
+      var self = this;
+      window.google.maps.event.addListener(nextProps.map, 'click', function(event) {
+        var polyNodeStr = self.state.polyNodeStr;
+        polyNodeStr += '\n'+event.latLng.lat()+' '+event.latLng.lng();
+        self.setState({polyNodeStr: polyNodeStr});
+        self.setStatePolyNodes(polyNodeStr);
+      });
+    }
   },
   render: function(){
     return (
-      <div>
+      <div
+        className="coords">
+        Coords
+        <br/>
         <textarea
           value={this.state.polyNodeStr}
           onChange={this.changeStr}
@@ -54,6 +72,9 @@ var Coords = React.createClass({
   changeStr: function(e){
     var polyNodeStr = e.target.value;
     this.setState({polyNodeStr: polyNodeStr});
+    this.setStatePolyNodes(polyNodeStr);
+  },
+  setStatePolyNodes: function(polyNodeStr){
     var newPolyNodes = [];
     var lines = polyNodeStr.split('\n');
     for (var l = 0; l < lines.length; l++){
