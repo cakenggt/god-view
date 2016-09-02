@@ -6,7 +6,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const http = require('http').Server(app);
 const Sequelize = require('sequelize');
-const db = new Sequelize(credentials.TEST_DATABASE_URL, {
+const db = new Sequelize(credentials.DATABASE_URL, {
   logging: false
 });
 

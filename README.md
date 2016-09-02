@@ -17,3 +17,5 @@ Run the upload script with an optional `records` argument for how many records t
 `npm run upload -- --records 10000`
 
 On the Heroku implementation of this, only 10000 records can be uploaded.
+
+Your google maps api key needs to be in the credentials file under the `GOOGLE_MAPS_API_KEY` variable.
