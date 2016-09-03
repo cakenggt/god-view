@@ -20,6 +20,13 @@ var Controls = React.createClass({
           maxRows={this.props.maxRows}
           setMaxRows={this.props.setMaxRows}
           />
+        <Stats
+          filteredTrips={this.props.filteredTrips}
+          />
+        <HeatMap
+          filteredTrips={this.props.filteredTrips}
+          heatMap={this.props.heatMap}
+          />
       </div>
     )
   }
@@ -57,8 +64,13 @@ var Coords = React.createClass({
   render: function(){
     return (
       <div
-        className="coords">
+        className="control coords">
         Coords
+        <span
+          className="clear-btn"
+          onClick={this.clear}>
+          Clear
+        </span>
         <br/>
         <textarea
           value={this.state.polyNodeStr}
@@ -67,6 +79,9 @@ var Coords = React.createClass({
           />
       </div>
     )
+  },
+  clear: function(){
+    this.setState({polyNodeStr: ''});
   },
   changeStr: function(e){
     var polyNodeStr = e.target.value;
@@ -115,7 +130,7 @@ var MaxRows = React.createClass({
   render: function(){
     return (
       <div
-        className="maxRows">
+        className="control maxRows">
         Max Rows &nbsp;
         <input
           type="Number"
@@ -131,6 +146,88 @@ var MaxRows = React.createClass({
       this.setState({maxRows: maxRows});
       this.props.setMaxRows(maxRows);
     }
+  }
+});
+
+var Stats = React.createClass({
+  render: function(){
+    var trips = this.props.filteredTrips;
+    return (
+      <div
+        className="control stats">
+        <pre>
+          Number of trips: {trips.length}
+        </pre>
+      </div>
+    );
+  }
+});
+
+var HeatMap = React.createClass({
+  getInitialState: function(){
+    return {
+      pickup: false,
+      dropoff: false
+    }
+  },
+  componentWillReceiveProps: function(nextProps){
+    if (this.props.heatMap){
+      //recompute the heatmap with new filteredTrips
+      this.computeHeatmap(nextProps.filteredTrips);
+    }
+  },
+  render: function(){
+    return (
+      <div
+        className="control">
+        <input
+          type="checkbox"
+          checked={this.state.pickup}
+          onChange={this.checkPickup}
+          />
+        Pickup &nbsp;
+        <input
+          type="checkbox"
+          checked={this.state.dropoff}
+          onChange={this.checkDropoff}
+          />
+          Dropoff
+      </div>
+    )
+  },
+  checkDropoff: function(e){
+    this.setState({dropoff: e.target.checked});
+    this.computeHeatmap(this.props.filteredTrips, {dropoff: e.target.checked});
+  },
+  checkPickup: function(e){
+    this.setState({pickup: e.target.checked});
+    this.computeHeatmap(this.props.filteredTrips, {pickup: e.target.checked});
+  },
+  computeHeatmap: function(filteredTrips, options){
+    var heatMap = this.props.heatMap;
+    var newData = [];
+    var hasPickup = this.state.pickup;
+    var hasDropoff = this.state.dropoff;
+    if (options){
+      hasPickup = options.pickup !== undefined ? options.pickup : hasPickup;
+      hasDropoff = options.dropoff !== undefined ? options.dropoff : hasDropoff;
+    }
+    for (var i = 0; i < filteredTrips.length; i++){
+      var trip = filteredTrips[i];
+      if (hasPickup){
+        newData.push(new google.maps.LatLng(
+          trip.pickup.coordinates[1],
+          trip.pickup.coordinates[0]
+        ));
+      }
+      if (hasDropoff){
+        newData.push(new google.maps.LatLng(
+          trip.dropoff.coordinates[1],
+          trip.dropoff.coordinates[0]
+        ));
+      }
+    }
+    heatMap.setData(newData);
   }
 });
 

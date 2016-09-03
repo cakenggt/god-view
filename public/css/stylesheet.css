@@ -1,12 +1,15 @@
 body {
   margin: 0px;
 }
-.coords {
+.control {
   box-shadow: gray 1px 1px 2px;
   margin: 10px;
   padding: 4px;
   display: inline-block;
   background-color: #f7f7f7;
+}
+.coords {
+
 }
 .left-pane {
   width: 20%;
@@ -19,4 +22,11 @@ body {
   height: 100%;
   position: relative;
   float: right;
+}
+.clear-btn {
+  float: right;
+  background-color: #c5c5c5;
+  border-radius: 2px;
+  padding: 2px;
+  margin: 2px;
 }

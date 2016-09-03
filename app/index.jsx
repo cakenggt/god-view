@@ -55,6 +55,7 @@ var Container = React.createClass({
             setPoly={this.setPoly}
             setMaxRows={this.setMaxRows}
             map={this.state.map}
+            heatMap={this.state.heatMap}
             />
         </div>
         <div
@@ -79,18 +80,23 @@ var Container = React.createClass({
       fillColor: '#0000FF',
       fillOpacity: 0.35,
     });
+    var heatMap = new google.maps.visualization.HeatmapLayer({
+      data: []
+    });
     this.setState({
       polygon: polygon,
-      map: map
+      map: map,
+      heatMap: heatMap
     });
     polygon.setMap(map);
+    heatMap.setMap(map)
   },
   getTripsAndApplyFilters(options){
     var maxRows = this.state.maxRows;
     var polyNodes = this.state.polyNodes;
     if (options){
-      maxRows = options.maxRows || maxRows;
-      polyNodes = options.polyNodes || polyNodes;
+      maxRows = options.maxRows !== undefined ? options.maxRows : maxRows;
+      polyNodes = options.polyNodes !== undefined ? options.polyNodes : polyNodes;
     }
     Network.getAll(this, polyNodes, maxRows)
     .then(this.applyFilters);
