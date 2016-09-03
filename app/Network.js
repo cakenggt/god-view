@@ -25,7 +25,6 @@ function getAll(component, points, numRows){
         var trip = response.trips[t];
         trip.time = new Date(trip.time);
       }
-      //TODO filter them now
       component.setState({
         trips: response.trips
       });

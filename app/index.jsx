@@ -5,6 +5,7 @@ import * as Network from './Network';
 import {GOOGLE_MAPS_API_KEY} from '../credentials';
 import {GoogleApiWrapper, Map} from 'google-maps-react';
 import {Controls} from './Controls.jsx';
+import {Filters} from './Filters.jsx';
 
 var Container = React.createClass({
   getInitialState: function() {
@@ -31,15 +32,21 @@ var Container = React.createClass({
       <div style={style}>
         <div
           className="left-pane">
-          <Controls
-            filteredTrips={this.state.filteredTrips}
-            polyNodes={this.state.polyNodes.slice(0)}
-            maxRows={this.state.maxRows}
-            setPoly={this.setPoly}
-            setMaxRows={this.setMaxRows}
-            map={this.state.map}
-            heatMap={this.state.heatMap}
-            />
+          <div
+            className="left-pane-contents">
+            <Controls
+              filteredTrips={this.state.filteredTrips}
+              polyNodes={this.state.polyNodes.slice(0)}
+              maxRows={this.state.maxRows}
+              setPoly={this.setPoly}
+              setMaxRows={this.setMaxRows}
+              map={this.state.map}
+              heatMap={this.state.heatMap}
+              />
+            <Filters
+              setFilter={this.setFilter}
+              />
+          </div>
         </div>
         <div
           className="right-pane"
@@ -139,6 +146,12 @@ var Container = React.createClass({
       return true;
     }, this);
     this.setState({filteredTrips: filteredTrips});
+  },
+  setFilter: function(key, filter){
+    var filters = this.state.filters;
+    filters[key] = filter;
+    this.setState({filters: filters});
+    this.applyFilters();
   },
   setPoly: function(polyNodes){
     this.setState({polyNodes: polyNodes});

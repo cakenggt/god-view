@@ -4,6 +4,7 @@ var Controls = React.createClass({
   render: function(){
     return (
       <div>
+        <h2>Controls</h2>
         <Coords
           polyNodes={this.props.polyNodes}
           setPoly={this.props.setPoly}
@@ -52,14 +53,9 @@ var Coords = React.createClass({
   render: function(){
     return (
       <div
-        className="control coords">
-        Coords
-        <span
-          className="clear-btn"
-          onClick={this.clear}>
-          Clear
-        </span>
-        <br/>
+        className="control">
+        <p
+          className="lead">Coords</p>
         <textarea
           value={this.state.polyNodeStr}
           onChange={this.changeStr}
@@ -67,9 +63,6 @@ var Coords = React.createClass({
           />
       </div>
     )
-  },
-  clear: function(){
-    this.setState({polyNodeStr: ''});
   },
   changeStr: function(e){
     var polyNodeStr = e.target.value;
@@ -119,7 +112,8 @@ var MaxRows = React.createClass({
     return (
       <div
         className="control maxRows">
-        Max Rows &nbsp;
+        <p
+          className="lead">Max Rows</p>
         <input
           type="Number"
           value={this.state.maxRows}
@@ -143,6 +137,8 @@ var Stats = React.createClass({
     return (
       <div
         className="control stats">
+        <p
+          className="lead">Stats</p>
         <pre>
           Number of trips: {trips.length}
         </pre>
@@ -168,6 +164,8 @@ var HeatMap = React.createClass({
     return (
       <div
         className="control">
+        <p
+          className="lead">Heat Map</p>
         <input
           type="checkbox"
           checked={this.state.pickup}

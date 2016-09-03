@@ -1,14 +1,21 @@
+html {
+  font-family: ff-clan-web-pro,"Helvetica Neue",Helvetica,sans-serif!important;
+}
 body {
   margin: 0px;
 }
-.control {
-  box-shadow: gray 1px 1px 2px;
-  margin: 10px;
-  padding: 4px;
-  display: inline-block;
-  background-color: #f7f7f7;
+h1 h2 h3 h4 h5 {
+  font-weight: 400;
 }
-.coords {
+p.lead {
+  font-size: 18px;
+  font-size: 1.28571rem;
+  line-height: 1.77778;
+}
+.control {
+
+}
+.filter {
 
 }
 .left-pane {
@@ -16,17 +23,15 @@ body {
   height: 100%;
   position: relative;
   float: left;
+  overflow: auto;
+  background-color: #f8f8f9;
+}
+.left-pane-contents {
+  padding: 10px;
 }
 .right-pane {
   width: 80%;
   height: 100%;
   position: relative;
   float: right;
-}
-.clear-btn {
-  float: right;
-  background-color: #c5c5c5;
-  border-radius: 2px;
-  padding: 2px;
-  margin: 2px;
 }
