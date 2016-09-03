@@ -4,7 +4,7 @@ function getAll(component, points, numRows){
   //Linking the polygon back to its beginning
   linkedPoints.push(linkedPoints[0]);
   var geoJsonPoints = linkedPoints.map(function(point){
-    return [point.lng, point.lat];
+    return [point.lng(), point.lat()];
   });
   return $.ajax({
     url: route,

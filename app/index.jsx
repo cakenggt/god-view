@@ -8,32 +8,15 @@ import {Controls} from './Controls.jsx';
 
 var Container = React.createClass({
   getInitialState: function() {
-    var polyNodes = [
-      {
-        lng:-73.991057,
-        lat: 40.882309
-      },
-      {
-        lng:-73.598320,
-        lat: 40.940642
-      },
-      {
-        lng:-74.090263,
-        lat: 40.558339
-      }
-    ];
     return {
       trips: [],
       filteredTrips: [],
-      polyNodes: polyNodes,
+      polyNodes: [],
       polygon: null,
       map: null,
       filters: {},
       maxRows: 10000
     };
-  },
-  componentDidMount: function() {
-    this.getTripsAndApplyFilters();
   },
   render: function() {
     const style = {
@@ -50,7 +33,7 @@ var Container = React.createClass({
           className="left-pane">
           <Controls
             filteredTrips={this.state.filteredTrips}
-            polyNodes={this.state.polyNodes}
+            polyNodes={this.state.polyNodes.slice(0)}
             maxRows={this.state.maxRows}
             setPoly={this.setPoly}
             setMaxRows={this.setMaxRows}
@@ -72,24 +55,67 @@ var Container = React.createClass({
     );
   },
   getMapReference: function(mapProps, map){
+    var polyNodes = [
+      new google.maps.LatLng(
+        40.882309,
+        -73.991057
+      ),
+      new google.maps.LatLng(
+        40.940642,
+        -73.598320
+      ),
+      new google.maps.LatLng(
+        40.558339,
+        -74.090263
+      )
+    ];
     var polygon = new window.google.maps.Polygon({
-      paths: this.state.polyNodes,
+      paths: polyNodes,
       strokeColor: '#0000FF',
       strokeOpacity: 0.8,
       strokeWeight: 2,
       fillColor: '#0000FF',
       fillOpacity: 0.35,
+      editable: true,
+      draggable: true
     });
     var heatMap = new google.maps.visualization.HeatmapLayer({
       data: []
     });
+
+    var self = this;
+    //This prevents the set_at listener from firing when the polygon is dragged
+    var polygonEventObject = {dragging: false};
+    var polygonChangeListener = function(){
+      if (polygonEventObject.dragging == false){
+        var polyNodes = this.getArray();
+        self.setState({polyNodes: polyNodes});
+        self.getTripsAndApplyFilters({polyNodes: polyNodes});
+      }
+    }
+    var path = polygon.getPath();
+    google.maps.event.addListener(path, 'insert_at', polygonChangeListener);
+    google.maps.event.addListener(path, 'remove_at', polygonChangeListener);
+    google.maps.event.addListener(path, 'set_at', polygonChangeListener);
+    google.maps.event.addListener(polygon, 'dragstart', function(){
+      polygonEventObject.dragging = true;
+    });
+    google.maps.event.addListener(polygon, 'dragend', function(){
+      var polyNodes = polygon.getPaths().getAt(0).getArray();
+      self.setState({polyNodes: polyNodes});
+      polygonEventObject.dragging = false;
+      self.getTripsAndApplyFilters({polyNodes: polyNodes});
+    });
+
     this.setState({
       polygon: polygon,
       map: map,
-      heatMap: heatMap
+      heatMap: heatMap,
+      polyNodes: polyNodes
     });
     polygon.setMap(map);
-    heatMap.setMap(map)
+    heatMap.setMap(map);
+    this.getTripsAndApplyFilters();
   },
   getTripsAndApplyFilters(options){
     var maxRows = this.state.maxRows;

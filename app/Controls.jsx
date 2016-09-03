@@ -1,18 +1,11 @@
 import React from 'react';
 
 var Controls = React.createClass({
-  getInitialState: function(){
-    return {
-      filteredTrips: this.props.filteredTrips,
-      polyNodes: this.props.polyNodes,
-      maxRows: this.props.maxRows
-    };
-  },
   render: function(){
     return (
       <div>
         <Coords
-          polyNodes={this.state.polyNodes}
+          polyNodes={this.props.polyNodes}
           setPoly={this.props.setPoly}
           map={this.props.map}
           />
@@ -35,30 +28,25 @@ var Controls = React.createClass({
 var Coords = React.createClass({
   getInitialState: function(){
     var polyNodes = this.props.polyNodes;
+    return {
+      polyNodeStr: this.polyNodesToStr(polyNodes)
+    };
+  },
+  polyNodesToStr: function(polyNodes){
     var polyNodeStr = '';
     for (var p = 0; p < polyNodes.length; p++){
       var polyNode = polyNodes[p];
-      polyNodeStr += polyNode.lat + ' ' + polyNode.lng + '\n';
+      polyNodeStr += polyNode.lat() + ' ' + polyNode.lng() + '\n';
     }
     polyNodeStr = polyNodeStr.substring(0, polyNodeStr.length-1);
-    return {
-      polyNodes: polyNodes,
-      polyNodeStr: polyNodeStr,
-      google: null
-    };
+    return polyNodeStr;
   },
-  componentWillReceiveProps: function(nextProps){
-    if ((!this.state.google || !this.props.map) &&
-        (window.google && nextProps.map)){
-      this.setState({google: window.google});
-      var self = this;
-      window.google.maps.event.addListener(nextProps.map, 'click', function(event) {
-        var polyNodeStr = self.state.polyNodeStr;
-        polyNodeStr += '\n'+event.latLng.lat()+' '+event.latLng.lng();
-        polyNodeStr = polyNodeStr.trim();
-        self.setState({polyNodeStr: polyNodeStr});
-        self.setStatePolyNodes(polyNodeStr);
-      });
+  componentWillReceiveProps: function(newProps){
+    //Checks to see if a change to the polygon was done, and if so, reset the text
+    var newPolyNodeStr = this.polyNodesToStr(newProps.polyNodes);
+    var oldPolyNodeStr = this.polyNodesToStr(this.props.polyNodes);
+    if (oldPolyNodeStr !== newPolyNodeStr){
+      this.setState({polyNodeStr: newPolyNodeStr});
     }
   },
   render: function(){
@@ -98,10 +86,10 @@ var Coords = React.createClass({
         var lat = parseFloat(parts[0]);
         var lng = parseFloat(parts[1]);
         if (!isNaN(lat) && !isNaN(lng)){
-          newPolyNodes.push({
-            lat: lat,
-            lng: lng
-          });
+          newPolyNodes.push(new google.maps.LatLng(
+            lat,
+            lng
+          ));
         }
         else{
           return;
