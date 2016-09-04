@@ -3,7 +3,8 @@ import React from 'react';
 var Controls = React.createClass({
   render: function(){
     return (
-      <div>
+      <div
+        className="controls">
         <h2>Controls</h2>
         <Coords
           polyNodes={this.props.polyNodes}
@@ -54,12 +55,12 @@ var Coords = React.createClass({
     return (
       <div
         className="control">
-        <p
-          className="lead">Coords</p>
+        <p>Polygon Coordinates</p>
         <textarea
           value={this.state.polyNodeStr}
           onChange={this.changeStr}
           rows={6}
+          className="polyNodeInput"
           />
       </div>
     )
@@ -112,12 +113,12 @@ var MaxRows = React.createClass({
     return (
       <div
         className="control maxRows">
-        <p
-          className="lead">Max Rows</p>
+        <p>Maximum Shown Trips</p>
         <input
           type="Number"
           value={this.state.maxRows}
           onChange={this.setMaxRows}
+          className="rowNumInput"
           />
       </div>
     );
@@ -137,8 +138,7 @@ var Stats = React.createClass({
     return (
       <div
         className="control stats">
-        <p
-          className="lead">Stats</p>
+        <p>Statistics</p>
         <pre>
           Number of trips: {trips.length}
         </pre>
@@ -164,8 +164,7 @@ var HeatMap = React.createClass({
     return (
       <div
         className="control">
-        <p
-          className="lead">Heat Map</p>
+        <p>Heat Map</p>
         <input
           type="checkbox"
           checked={this.state.pickup}

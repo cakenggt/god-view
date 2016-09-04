@@ -4,19 +4,35 @@ html {
 body {
   margin: 0px;
 }
-h1 h2 h3 h4 h5 {
+h1, h2, h3, h4, h5 {
   font-weight: 400;
+  margin: 0px;
 }
-p.lead {
-  font-size: 18px;
-  font-size: 1.28571rem;
-  line-height: 1.77778;
+p {
+  margin: 10px 0px;
+}
+pre {
+  background-color: #e4e4e4;
+  border-radius: 3px;
+  padding: 20px 4px;
+}
+.controls {
+  padding: 10px 0px;
 }
 .control {
-
+  padding: 8px 5px;
 }
-.filter {
-
+.hourInput {
+  width: 36px;
+}
+.dayInput {
+  width: 75px;
+}
+.rowNumInput {
+  width: 58px;
+}
+.polyNodeInput {
+  width: 100%;
 }
 .left-pane {
   width: 20%;
@@ -25,9 +41,10 @@ p.lead {
   float: left;
   overflow: auto;
   background-color: #f8f8f9;
+  box-shadow: gray 1px 0px 10px;
 }
 .left-pane-contents {
-  padding: 10px;
+  padding: 0px 20px;
 }
 .right-pane {
   width: 80%;

@@ -3,67 +3,21 @@ import React from 'react';
 var Filters = React.createClass({
   render: function(){
     return (
-      <div>
+      <div
+        className="controls">
         <h2>Filters</h2>
-        <Base
-          className="filter"
-          setFilter={this.props.setFilter}
-          filterKey="base"
-          />
         <Time
-          className="filter"
+          className="control"
           setFilter={this.props.setFilter}
           filterKey="time"
           />
         <Day
-          className="filter"
+          className="control"
           setFilter={this.props.setFilter}
           filterKey="day"
           />
       </div>
     );
-  }
-});
-
-var Base = React.createClass({
-  propTypes: {
-    filterKey: React.PropTypes.string.isRequired
-  },
-  getInitialState: function(){
-    return {
-      base: ''
-    };
-  },
-  render: function(){
-    return (
-      <div
-        className="control">
-        <p
-          className="lead">Base</p> &nbsp;
-        <input
-          value={this.state.base}
-          onChange={this.changeBase}
-          />
-      </div>
-    );
-  },
-  changeBase: function(e){
-    var newBase = e.target.value;
-    this.setState({base: newBase});
-    var newFilter = this.computeFilter(newBase);
-    this.props.setFilter(this.props.filterKey, newFilter);
-  },
-  computeFilter: function(base){
-    if (!base){
-      return function(){
-        return true;
-      }
-    }
-    else{
-      return function(val, index, array){
-        return val.base === base;
-      }
-    }
   }
 });
 
@@ -81,18 +35,17 @@ var Time = React.createClass({
     return (
       <div
         className="control">
-        <p
-          className="lead">Time Range</p>
+        <p>Hour of the Day Range (EST)</p>
         <input
           type="Number"
           onChange={this.timeMinChange}
           value={this.state.timeMin}
-          /><br/>
-        to <br/>
-        <input
+          className="hourInput"
+          /> to <input
           type="Number"
           onChange={this.timeMaxChange}
           value={this.state.timeMax}
+          className="hourInput"
           />
       </div>
     );
@@ -160,18 +113,17 @@ var Day = React.createClass({
     return (
       <div
         className="control">
-        <p
-          className="lead">Day Range</p>
+        <p>Day of Week Range</p>
         <select
           value={this.state.dayMin}
           onChange={this.dayMinChange}
+          className="dayInput"
           >
           {days}
-        </select><br/>
-        to <br/>
-        <select
+        </select> to <select
           value={this.state.dayMax}
           onChange={this.dayMaxChange}
+          className="dayInput"
           >
           {days}
         </select>

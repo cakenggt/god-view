@@ -4,6 +4,7 @@ import {render} from 'react-dom';
 import * as Network from './Network';
 import {GOOGLE_MAPS_API_KEY} from '../credentials';
 import {GoogleApiWrapper, Map} from 'google-maps-react';
+import {Scrollbars} from 'react-custom-scrollbars';
 import {Controls} from './Controls.jsx';
 import {Filters} from './Filters.jsx';
 
@@ -31,7 +32,18 @@ var Container = React.createClass({
     return (
       <div style={style}>
         <div
-          className="left-pane">
+          className="right-pane"
+          >
+          <Map
+            google={window.google}
+            onReady={this.getMapReference}
+            initialCenter={empireStateBuilding}
+            zoom={11}
+            />
+        </div>
+        <Scrollbars
+          className="left-pane"
+          style={{width:'20%'}}>
           <div
             className="left-pane-contents">
             <Controls
@@ -47,17 +59,7 @@ var Container = React.createClass({
               setFilter={this.setFilter}
               />
           </div>
-        </div>
-        <div
-          className="right-pane"
-          >
-          <Map
-            google={window.google}
-            onReady={this.getMapReference}
-            initialCenter={empireStateBuilding}
-            zoom={11}
-            />
-        </div>
+        </Scrollbars>
       </div>
     );
   },
