@@ -34,6 +34,7 @@ pre {
 }
 .polyNodeInput {
   width: 100%;
+  resize: vertical;
 }
 .left-pane {
   width: 20%;
@@ -55,7 +56,8 @@ pre {
 }
 .resetBtn {
   padding: 3px;
-  float: left;
+  margin: -3px 0px;
+  float: right;
   border-radius: 3px;
   background-color: #e4e4e4;
 }

@@ -56,10 +56,12 @@ var Coords = React.createClass({
     return (
       <div
         className="control">
-        <p>Polygon Coordinates</p>
-        <span
-          className="resetBtn"
-          onClick={this.reset}>Reset</span>
+        <p>Polygon Coordinates
+          <span
+            className="resetBtn"
+            onClick={this.reset}>Reset</span>
+        </p>
+
         <textarea
           value={this.state.polyNodeStr}
           onChange={this.changeStr}
