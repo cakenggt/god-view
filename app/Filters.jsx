@@ -35,7 +35,13 @@ var Time = React.createClass({
     return (
       <div
         className="control">
-        <p>Hour of the Day Range (EST)</p>
+        <p>Hour of the Day Range (EST)
+          <i
+            className="material-icons md-18"
+            data-ot="Filters for trips between the provided 24-hour format hours for all days.
+            Inputting a larger start hour than end hour will filter across day boundaries.
+            The hours will be interpreted in EST.">help_outline</i>
+        </p>
         <input
           type="Number"
           onChange={this.timeMinChange}
@@ -113,7 +119,13 @@ var Day = React.createClass({
     return (
       <div
         className="control">
-        <p>Day of Week Range</p>
+        <p>Day of Week Range
+          <i
+            className="material-icons md-18"
+            data-ot="Filters for trips between the provided days for all weeks.
+            Inputting a later start day than end day will filter across week boundaries.
+            The days will have their starts and stops interpreted in EST.">help_outline</i>
+        </p>
         <select
           value={this.state.dayMin}
           onChange={this.dayMinChange}

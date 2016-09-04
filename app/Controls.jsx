@@ -10,6 +10,7 @@ var Controls = React.createClass({
           polyNodes={this.props.polyNodes}
           setPoly={this.props.setPoly}
           map={this.props.map}
+          initialPolyNodes={this.props.initialPolyNodes}
           />
         <MaxRows
           maxRows={this.props.maxRows}
@@ -56,6 +57,9 @@ var Coords = React.createClass({
       <div
         className="control">
         <p>Polygon Coordinates</p>
+        <span
+          className="resetBtn"
+          onClick={this.reset}>Reset</span>
         <textarea
           value={this.state.polyNodeStr}
           onChange={this.changeStr}
@@ -64,6 +68,9 @@ var Coords = React.createClass({
           />
       </div>
     )
+  },
+  reset: function(){
+    this.setPoly(this.props.initialPolyNodes);
   },
   changeStr: function(e){
     var polyNodeStr = e.target.value;
@@ -135,12 +142,29 @@ var MaxRows = React.createClass({
 var Stats = React.createClass({
   render: function(){
     var trips = this.props.filteredTrips;
+    var earliestDate = null;
+    var latestDate = null;
+    for (var t = 0; t < trips.length; t++){
+      var trip = trips[t];
+      if (earliestDate === null || trip.time.isBefore(earliestDate)){
+        earliestDate = trip.time;
+      }
+      if (latestDate === null || trip.time.isAfter(latestDate)){
+        latestDate = trip.time;
+      }
+    }
+    var dateString = '';
+    if (earliestDate){
+      dateString = `Earliest Trip: ${earliestDate.format("YYYY/MM/DD")}
+Latest Trip: ${latestDate.format("YYYY/MM/DD")}`
+    }
     return (
       <div
         className="control stats">
         <p>Statistics</p>
         <pre>
-          Number of trips: {trips.length}
+          Number of trips: {trips.length}<br/>
+          {dateString}
         </pre>
       </div>
     );

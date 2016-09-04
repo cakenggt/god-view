@@ -17,7 +17,8 @@ var Container = React.createClass({
       polygon: null,
       map: null,
       filters: {},
-      maxRows: 10000
+      maxRows: 10000,
+      initialPolyNodes: []
     };
   },
   render: function() {
@@ -54,6 +55,7 @@ var Container = React.createClass({
               setMaxRows={this.setMaxRows}
               map={this.state.map}
               heatMap={this.state.heatMap}
+              initialPolyNodes={this.state.initialPolyNodes}
               />
             <Filters
               setFilter={this.setFilter}
@@ -66,16 +68,16 @@ var Container = React.createClass({
   getMapReference: function(mapProps, map){
     var polyNodes = [
       new google.maps.LatLng(
-        40.882309,
-        -73.991057
+        40.771119350177294,
+        -73.99105700000001
       ),
       new google.maps.LatLng(
-        40.940642,
-        -73.598320
+        40.758332954417135,
+        -73.96498870117188
       ),
       new google.maps.LatLng(
-        40.558339,
-        -74.090263
+        40.736514041613354,
+        -74.00237237500005
       )
     ];
     var polygon = new window.google.maps.Polygon({
@@ -120,7 +122,8 @@ var Container = React.createClass({
       polygon: polygon,
       map: map,
       heatMap: heatMap,
-      polyNodes: polyNodes
+      polyNodes: polyNodes,
+      initialPolyNodes: polyNodes
     });
     polygon.setMap(map);
     heatMap.setMap(map);
