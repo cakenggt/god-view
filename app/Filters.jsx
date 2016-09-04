@@ -70,7 +70,7 @@ var Time = React.createClass({
       timeMax = options.timeMax !== undefined ? options.timeMax : timeMax;
     }
     return function(val, index, array){
-      var hours = val.time.getHours();
+      var hours = val.time.hour();
       if (timeMin <= timeMax){
         return hours >= timeMin && hours <= timeMax;
       }
@@ -150,7 +150,7 @@ var Day = React.createClass({
       dayMax = options.dayMax !== undefined ? options.dayMax : dayMax;
     }
     return function(val, index, array){
-      var day = val.time.getDay();
+      var day = val.time.day();
       if (dayMin <= dayMax){
         return day >= dayMin && day <= dayMax;
       }

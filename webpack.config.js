@@ -16,8 +16,12 @@ var config = {
         test : /\.jsx?/,
         include : APP_DIR,
         loader : 'babel'
-      }
+      },
+      {include: /\.json$/, loaders: ["json-loader"]}
     ]
+  },
+  resolve: {
+    extensions: ['', '.json', '.jsx', '.js']
   }
 };
 

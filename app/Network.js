@@ -1,3 +1,5 @@
+import moment from 'moment-timezone';
+
 function getAll(component, points, numRows){
   var route = '/api/v1/trip';
   var linkedPoints = points.slice(0);
@@ -23,7 +25,7 @@ function getAll(component, points, numRows){
     if (response.trips){
       for (var t = 0; t < response.trips.length; t++){
         var trip = response.trips[t];
-        trip.time = new Date(trip.time);
+        trip.time = moment.tz(trip.time, 'America/New_York');
       }
       component.setState({
         trips: response.trips

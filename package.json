@@ -12,6 +12,8 @@
     "csv": "^1.1.0",
     "express": "^4.14.0",
     "google-maps-react": "^1.0.18",
+    "json-loader": "^0.5.4",
+    "moment-timezone": "^0.5.5",
     "pg": "^6.1.0",
     "react": "^15.3.1",
     "react-custom-scrollbars": "^4.0.0",
