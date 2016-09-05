@@ -12,6 +12,22 @@ export var Time = React.createClass({
     };
   },
   render: function(){
+    var timeLabels = [
+      '12:00 AM','1:00 AM','2:00 AM','3:00 AM',
+      '4:00 AM','5:00 AM','6:00 AM','7:00 AM','8:00 AM',
+      '9:00 AM','10:00 AM','11:00 AM','12:00 PM','1:00 PM',
+      '2:00 PM','3:00 PM','4:00 PM','5:00 PM','6:00 PM',
+      '7:00 PM','8:00 PM','9:00 PM','10:00 PM','11:00 PM'
+    ];
+    var times = timeLabels.map(function(time, i){
+      return (
+        <option
+          value={i}
+          key={i}>
+          {time}
+        </option>
+      );
+    });
     return (
       <div
         className="control">
@@ -22,21 +38,18 @@ export var Time = React.createClass({
             Inputting a larger start hour than end hour will filter across day boundaries.
             The hours will be interpreted in EST.">help_outline</i>
         </p>
-        <input
-          type="Number"
+        <select
           onChange={this.timeMinChange}
           value={this.state.timeMin}
-          min={0}
-          max={23}
-          className="hourInput"
-          /> to <input
+          className="hourInput">
+          {times}
+        </select> to <select
           type="Number"
           onChange={this.timeMaxChange}
           value={this.state.timeMax}
-          min={0}
-          max={23}
-          className="hourInput"
-          />
+          className="hourInput">
+          {times}
+        </select>
       </div>
     );
   },
