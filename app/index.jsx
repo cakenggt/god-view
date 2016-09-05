@@ -5,8 +5,8 @@ import * as Network from './Network';
 import {GOOGLE_MAPS_API_KEY} from '../credentials';
 import {GoogleApiWrapper, Map} from 'google-maps-react';
 import {Scrollbars} from 'react-custom-scrollbars';
-import {Controls} from './Controls.jsx';
-import {Filters} from './Filters.jsx';
+import {Coords, MaxRows, Stats, HeatMap} from './Controls.jsx';
+import {Time, Day} from './Filters.jsx';
 
 var Container = React.createClass({
   getInitialState: function() {
@@ -48,19 +48,38 @@ var Container = React.createClass({
           style={{width:'20%'}}>
           <div
             className="left-pane-contents">
-            <Controls
-              filteredTrips={this.state.filteredTrips}
-              polyNodes={this.state.polyNodes.slice(0)}
-              maxRows={this.state.maxRows}
-              setPoly={this.setPoly}
-              setMaxRows={this.setMaxRows}
-              map={this.state.map}
-              addMapReady={this.addMapReady}
-              totalRows={this.state.totalRows}
-              />
-            <Filters
-              setFilter={this.setFilter}
-              />
+            <Controls>
+                <Coords
+                  polyNodes={this.state.polyNodes.slice(0)}
+                  setPoly={this.setPoly}
+                  map={this.state.map}
+                  addMapReady={this.addMapReady}
+                  />
+                <MaxRows
+                  maxRows={this.state.maxRows}
+                  setMaxRows={this.setMaxRows}
+                  totalRows={this.state.totalRows}
+                  />
+                <Stats
+                  filteredTrips={this.state.filteredTrips}
+                  />
+                <HeatMap
+                  filteredTrips={this.state.filteredTrips}
+                  addMapReady={this.addMapReady}
+                  />
+            </Controls>
+            <Filters>
+              <Time
+                className="control"
+                setFilter={this.setFilter}
+                filterKey="time"
+                />
+              <Day
+                className="control"
+                setFilter={this.setFilter}
+                filterKey="day"
+                />
+            </Filters>
           </div>
         </Scrollbars>
       </div>
@@ -161,6 +180,30 @@ var Container = React.createClass({
     this.getTripsAndApplyFilters({
       maxRows: maxRows
     });
+  }
+});
+
+var Controls = React.createClass({
+  render: function(){
+    return (
+      <div
+        className="controls">
+        <h2>Controls</h2>
+        {this.props.children}
+      </div>
+    )
+  }
+});
+
+var Filters = React.createClass({
+  render: function(){
+    return (
+      <div
+        className="controls">
+        <h2>Filters</h2>
+        {this.props.children}
+      </div>
+    );
   }
 });
 

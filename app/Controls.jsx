@@ -1,36 +1,6 @@
 import React from 'react';
 
-var Controls = React.createClass({
-  render: function(){
-    return (
-      <div
-        className="controls">
-        <h2>Controls</h2>
-        <Coords
-          polyNodes={this.props.polyNodes}
-          setPoly={this.props.setPoly}
-          map={this.props.map}
-          addMapReady={this.props.addMapReady}
-          />
-        <MaxRows
-          maxRows={this.props.maxRows}
-          setMaxRows={this.props.setMaxRows}
-          totalRows={this.props.totalRows}
-          />
-        <Stats
-          filteredTrips={this.props.filteredTrips}
-          />
-        <HeatMap
-          filteredTrips={this.props.filteredTrips}
-          heatMap={this.props.heatMap}
-          addMapReady={this.props.addMapReady}
-          />
-      </div>
-    )
-  }
-});
-
-var Coords = React.createClass({
+export var Coords = React.createClass({
   propTypes: {
     addMapReady: React.PropTypes.func.isRequired
   },
@@ -140,7 +110,7 @@ var Coords = React.createClass({
   }
 });
 
-var MaxRows = React.createClass({
+export var MaxRows = React.createClass({
   getInitialState: function(){
     return {
       maxRows: this.props.maxRows
@@ -171,7 +141,7 @@ var MaxRows = React.createClass({
   }
 });
 
-var Stats = React.createClass({
+export var Stats = React.createClass({
   render: function(){
     var trips = this.props.filteredTrips;
     var earliestDate = null;
@@ -203,7 +173,7 @@ Latest Trip: ${latestDate.format("YYYY/MM/DD")}`
   }
 });
 
-var HeatMap = React.createClass({
+export var HeatMap = React.createClass({
   propTypes: {
     addMapReady: React.PropTypes.func.isRequired
   },
@@ -289,5 +259,3 @@ var HeatMap = React.createClass({
     heatMap.setData(newData);
   }
 });
-
-exports.Controls = Controls;

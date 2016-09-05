@@ -1,27 +1,6 @@
 import React from 'react';
 
-var Filters = React.createClass({
-  render: function(){
-    return (
-      <div
-        className="controls">
-        <h2>Filters</h2>
-        <Time
-          className="control"
-          setFilter={this.props.setFilter}
-          filterKey="time"
-          />
-        <Day
-          className="control"
-          setFilter={this.props.setFilter}
-          filterKey="day"
-          />
-      </div>
-    );
-  }
-});
-
-var Time = React.createClass({
+export var Time = React.createClass({
   propTypes: {
     filterKey: React.PropTypes.string.isRequired
   },
@@ -91,7 +70,7 @@ var Time = React.createClass({
   }
 });
 
-var Day = React.createClass({
+export var Day = React.createClass({
   propTypes: {
     filterKey: React.PropTypes.string.isRequired
   },
@@ -176,5 +155,3 @@ var Day = React.createClass({
     };
   }
 });
-
-exports.Filters = Filters;
