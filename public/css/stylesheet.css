@@ -60,12 +60,22 @@ pre {
   float: right;
   border-radius: 3px;
   background-color: #e4e4e4;
+  cursor: pointer;
 }
 .heatMapCheck {
   margin-right: 3px;
 }
 .heatMapLabel {
   padding-right: 6px;
+}
+.presetBtn {
+  padding: 3px 5px;
+  margin: 3px 0px;
+  margin-right: 3px;
+  border-radius: 3px;
+  background-color: #e4e4e4;
+  cursor: pointer;
+  display: inline-block
 }
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }

@@ -5,7 +5,7 @@ import * as Network from './Network';
 import {GOOGLE_MAPS_API_KEY} from '../credentials';
 import {GoogleApiWrapper, Map} from 'google-maps-react';
 import {Scrollbars} from 'react-custom-scrollbars';
-import {Coords, MaxRows, Stats, HeatMap} from './Controls.jsx';
+import {Neighborhoods, Coords, MaxRows, Stats, HeatMap} from './Controls.jsx';
 import {Time, Day} from './Filters.jsx';
 
 var Container = React.createClass({
@@ -19,7 +19,8 @@ var Container = React.createClass({
       filters: {},
       maxRows: 10000,
       onMapReady: [],
-      totalRows: 10000
+      totalRows: 10000,
+      dragging: false
     };
   },
   render: function() {
@@ -49,6 +50,10 @@ var Container = React.createClass({
           <div
             className="left-pane-contents">
             <Controls>
+                <Neighborhoods
+                  setPoly={this.setPoly}
+                  addMapReady={this.addMapReady}
+                  />
                 <Coords
                   polyNodes={this.state.polyNodes.slice(0)}
                   setPoly={this.setPoly}
@@ -110,26 +115,12 @@ var Container = React.createClass({
     }
 
     var self = this;
-    //This prevents the set_at listener from firing when the polygon is dragged
-    var polygonEventObject = {dragging: false};
-    var polygonChangeListener = function(){
-      if (polygonEventObject.dragging == false){
-        var polyNodes = this.getArray();
-        self.setState({polyNodes: polyNodes});
-        self.getTripsAndApplyFilters({polyNodes: polyNodes});
-      }
-    }
-    var path = polygon.getPath();
-    google.maps.event.addListener(path, 'insert_at', polygonChangeListener);
-    google.maps.event.addListener(path, 'remove_at', polygonChangeListener);
-    google.maps.event.addListener(path, 'set_at', polygonChangeListener);
     google.maps.event.addListener(polygon, 'dragstart', function(){
-      polygonEventObject.dragging = true;
+      self.setState({dragging: true});
     });
     google.maps.event.addListener(polygon, 'dragend', function(){
       var polyNodes = polygon.getPaths().getAt(0).getArray();
-      self.setState({polyNodes: polyNodes});
-      polygonEventObject.dragging = false;
+      self.setState({polyNodes: polyNodes, dragging: false});
       self.getTripsAndApplyFilters({polyNodes: polyNodes});
     });
 
@@ -170,6 +161,22 @@ var Container = React.createClass({
   setPoly: function(polyNodes){
     this.setState({polyNodes: polyNodes});
     this.state.polygon.setPaths(polyNodes);
+
+    //The listener is broken when the paths are reset, reset the listener here
+    var self = this;
+    //This prevents the set_at listener from firing when the polygon is dragged
+    var polygonChangeListener = function(){
+      if (self.state.dragging == false){
+        var polyNodes = this.getArray();
+        self.setState({polyNodes: polyNodes});
+        self.getTripsAndApplyFilters({polyNodes: polyNodes});
+      }
+    }
+    var path = this.state.polygon.getPath();
+    google.maps.event.addListener(path, 'insert_at', polygonChangeListener);
+    google.maps.event.addListener(path, 'remove_at', polygonChangeListener);
+    google.maps.event.addListener(path, 'set_at', polygonChangeListener);
+
     this.getTripsAndApplyFilters({
       polyNodes: polyNodes
     });

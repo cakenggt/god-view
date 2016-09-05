@@ -16,6 +16,96 @@ var filteredTripsPropType = React.PropTypes.arrayOf(
   })
 );
 
+export var Neighborhoods = React.createClass({
+  propTypes: {
+    addMapReady: React.PropTypes.func.isRequired,
+    setPoly: React.PropTypes.func.isRequired
+  },
+  getInitialState: function(){
+    return {
+      neighborhoods: []
+    }
+  },
+  componentDidMount: function(){
+    this.props.addMapReady(map => {
+      var neighborhoods = [
+        {
+          name: 'Upper West Side',
+          points: [
+            new google.maps.LatLng(40.80595110929101, -73.97097261889644),
+            new google.maps.LatLng(40.8007736531449, -73.9581222460937),
+            new google.maps.LatLng(40.7763688629256, -73.97593652294927),
+            new google.maps.LatLng(40.78138111370849, -73.9881316186524)
+          ]
+        },
+        {
+          name: 'Harlem',
+          points: [
+            new google.maps.LatLng(40.82284053065121, -73.94204767687984),
+            new google.maps.LatLng(40.81960297300331, -73.93420628411866),
+            new google.maps.LatLng(40.818248994750995, -73.93366049987787),
+            new google.maps.LatLng(40.79677463909198, -73.94941484021001),
+            new google.maps.LatLng(40.800420931037095, -73.95826253906262),
+            new google.maps.LatLng(40.81011936788671, -73.95120474942024),
+            new google.maps.LatLng(40.81146018940847, -73.95488563243111),
+            new google.maps.LatLng(40.81895120019264, -73.96110343904888),
+            new google.maps.LatLng(40.82185201760223, -73.9589766703607),
+            new google.maps.LatLng(40.82284772303078, -73.96083152942475),
+            new google.maps.LatLng(40.828151736667095, -73.95695244040212),
+            new google.maps.LatLng(40.827491396160305, -73.95514164192343),
+            new google.maps.LatLng(40.8282598706836, -73.95461830377201)
+          ]
+        },
+        {
+          name: 'Hell\'s Kitchen',
+          points: [
+            new google.maps.LatLng(40.76234354552903, -74.00152834399415),
+            new google.maps.LatLng(40.75852799665626, -73.99254035217285),
+            new google.maps.LatLng(40.75329108704666, -73.99627839611821),
+            new google.maps.LatLng(40.75742738115766, -74.0055123330689)
+          ]
+        },
+        {
+          name: 'Midtown',
+          points: [
+            new google.maps.LatLng(40.76929927854223, -73.98496302111812),
+            new google.maps.LatLng(40.76236371106136, -73.96859359008783),
+            new google.maps.LatLng(40.74633367874015, -73.97997056530767),
+            new google.maps.LatLng(40.75072529655372, -73.99085273340233),
+            new google.maps.LatLng(40.76460847545831, -73.98113553626263),
+            new google.maps.LatLng(40.76591364991821, -73.98384545961005),
+            new google.maps.LatLng(40.75747228789776, -73.98978029043587),
+            new google.maps.LatLng(40.758532628002335, -73.99238023773205)
+          ]
+        }
+      ];
+      this.setState({neighborhoods: neighborhoods});
+    });
+  },
+  render: function(){
+    var self = this;
+    var buttons = this.state.neighborhoods.map(function(element){
+      return (
+        <span
+          className="presetBtn"
+          key={element.name}
+          onClick={function(){self.props.setPoly(element.points)}}>
+          {element.name}
+        </span>
+      );
+    });
+    return (
+      <div
+        className="control">
+        <p>Neighborhoods</p>
+        <div>
+          {buttons}
+        </div>
+      </div>
+    );
+  }
+});
+
 export var Coords = React.createClass({
   propTypes: {
     addMapReady: React.PropTypes.func.isRequired,
