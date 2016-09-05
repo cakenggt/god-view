@@ -231,20 +231,23 @@ export var HeatMap = React.createClass({
       <div
         className="control">
         <p>Heat Map</p>
-        <label>
+        <label
+          className="heatMapLabel">
           <input
             type="checkbox"
             checked={this.state.pickup}
             onChange={this.checkPickup}
+            className="heatMapCheck"
             />
           Pickup
         </label>
-        &nbsp;
-        <label>
+        <label
+          className="heatMapLabel">
           <input
             type="checkbox"
             checked={this.state.dropoff}
             onChange={this.checkDropoff}
+            className="heatMapCheck"
             />
             Dropoff
         </label>
