@@ -31,6 +31,11 @@ function getAll(component, points, numRows){
         trips: response.trips
       });
     }
+    if (response.totalRows !== undefined){
+      component.setState({
+        totalRows: response.totalRows
+      });
+    }
   });
 }
 

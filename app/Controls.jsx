@@ -15,6 +15,7 @@ var Controls = React.createClass({
         <MaxRows
           maxRows={this.props.maxRows}
           setMaxRows={this.props.setMaxRows}
+          totalRows={this.props.totalRows}
           />
         <Stats
           filteredTrips={this.props.filteredTrips}
@@ -155,6 +156,8 @@ var MaxRows = React.createClass({
           value={this.state.maxRows}
           onChange={this.setMaxRows}
           className="rowNumInput"
+          min={0}
+          max={this.props.totalRows}
           />
       </div>
     );

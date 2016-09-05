@@ -18,7 +18,8 @@ var Container = React.createClass({
       map: null,
       filters: {},
       maxRows: 10000,
-      onMapReady: []
+      onMapReady: [],
+      totalRows: 10000
     };
   },
   render: function() {
@@ -55,6 +56,7 @@ var Container = React.createClass({
               setMaxRows={this.setMaxRows}
               map={this.state.map}
               addMapReady={this.addMapReady}
+              totalRows={this.state.totalRows}
               />
             <Filters
               setFilter={this.setFilter}
