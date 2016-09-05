@@ -18,7 +18,7 @@ var Container = React.createClass({
       map: null,
       filters: {},
       maxRows: 10000,
-      initialPolyNodes: []
+      onMapReady: []
     };
   },
   render: function() {
@@ -54,8 +54,7 @@ var Container = React.createClass({
               setPoly={this.setPoly}
               setMaxRows={this.setMaxRows}
               map={this.state.map}
-              heatMap={this.state.heatMap}
-              initialPolyNodes={this.state.initialPolyNodes}
+              addMapReady={this.addMapReady}
               />
             <Filters
               setFilter={this.setFilter}
@@ -65,23 +64,14 @@ var Container = React.createClass({
       </div>
     );
   },
+  addMapReady: function(fun){
+    var onMapReady = this.state.onMapReady;
+    onMapReady.push(fun);
+    this.setState({onMapReady: onMapReady});
+  },
   getMapReference: function(mapProps, map){
-    var polyNodes = [
-      new google.maps.LatLng(
-        40.771119350177294,
-        -73.99105700000001
-      ),
-      new google.maps.LatLng(
-        40.758332954417135,
-        -73.96498870117188
-      ),
-      new google.maps.LatLng(
-        40.736514041613354,
-        -74.00237237500005
-      )
-    ];
     var polygon = new window.google.maps.Polygon({
-      paths: polyNodes,
+      paths: [],
       strokeColor: '#0000FF',
       strokeOpacity: 0.8,
       strokeWeight: 2,
@@ -90,9 +80,14 @@ var Container = React.createClass({
       editable: true,
       draggable: true
     });
-    var heatMap = new google.maps.visualization.HeatmapLayer({
-      data: []
-    });
+
+    this.setState({polygon: polygon});
+
+    var mapReadyFunctions = this.state.onMapReady;
+    for (var f = 0; f < mapReadyFunctions.length; f++){
+      var fun = mapReadyFunctions[f];
+      fun.call(this, map);
+    }
 
     var self = this;
     //This prevents the set_at listener from firing when the polygon is dragged
@@ -119,15 +114,9 @@ var Container = React.createClass({
     });
 
     this.setState({
-      polygon: polygon,
-      map: map,
-      heatMap: heatMap,
-      polyNodes: polyNodes,
-      initialPolyNodes: polyNodes
+      map: map
     });
     polygon.setMap(map);
-    heatMap.setMap(map);
-    this.getTripsAndApplyFilters();
   },
   getTripsAndApplyFilters(options){
     var maxRows = this.state.maxRows;

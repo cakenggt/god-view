@@ -10,7 +10,7 @@ var Controls = React.createClass({
           polyNodes={this.props.polyNodes}
           setPoly={this.props.setPoly}
           map={this.props.map}
-          initialPolyNodes={this.props.initialPolyNodes}
+          addMapReady={this.props.addMapReady}
           />
         <MaxRows
           maxRows={this.props.maxRows}
@@ -22,6 +22,7 @@ var Controls = React.createClass({
         <HeatMap
           filteredTrips={this.props.filteredTrips}
           heatMap={this.props.heatMap}
+          addMapReady={this.props.addMapReady}
           />
       </div>
     )
@@ -29,11 +30,37 @@ var Controls = React.createClass({
 });
 
 var Coords = React.createClass({
+  propTypes: {
+    addMapReady: React.PropTypes.func.isRequired
+  },
   getInitialState: function(){
     var polyNodes = this.props.polyNodes;
     return {
-      polyNodeStr: this.polyNodesToStr(polyNodes)
+      polyNodeStr: this.polyNodesToStr(polyNodes),
+      initialPolyNodes: []
     };
+  },
+  componentDidMount: function(){
+    var self = this;
+    //When the map is ready, add poly nodes
+    this.props.addMapReady(function(map){
+      var polyNodes = [
+        new google.maps.LatLng(
+          40.771119350177294,
+          -73.99105700000001
+        ),
+        new google.maps.LatLng(
+          40.758332954417135,
+          -73.96498870117188
+        ),
+        new google.maps.LatLng(
+          40.736514041613354,
+          -74.00237237500005
+        )
+      ];
+      self.setState({initialPolyNodes: polyNodes});
+      this.setPoly(polyNodes);
+    });
   },
   polyNodesToStr: function(polyNodes){
     var polyNodeStr = '';
@@ -72,7 +99,7 @@ var Coords = React.createClass({
     )
   },
   reset: function(){
-    this.setPoly(this.props.initialPolyNodes);
+    this.setPoly(this.state.initialPolyNodes);
   },
   changeStr: function(e){
     var polyNodeStr = e.target.value;
@@ -174,15 +201,28 @@ Latest Trip: ${latestDate.format("YYYY/MM/DD")}`
 });
 
 var HeatMap = React.createClass({
+  propTypes: {
+    addMapReady: React.PropTypes.func.isRequired
+  },
   getInitialState: function(){
     return {
       pickup: false,
-      dropoff: false
+      dropoff: false,
+      heatMap: null
     }
   },
+  componentDidMount: function(){
+    var self = this;
+    this.props.addMapReady(function(map){
+      var heatMap = new google.maps.visualization.HeatmapLayer({
+        data: []
+      });
+      self.setState({heatMap: heatMap});
+      heatMap.setMap(map);
+    });
+  },
   componentWillReceiveProps: function(nextProps){
-    if (this.props.heatMap){
-      //recompute the heatmap with new filteredTrips
+    if (this.state.heatMap){
       this.computeHeatmap(nextProps.filteredTrips);
     }
   },
@@ -215,7 +255,7 @@ var HeatMap = React.createClass({
     this.computeHeatmap(this.props.filteredTrips, {pickup: e.target.checked});
   },
   computeHeatmap: function(filteredTrips, options){
-    var heatMap = this.props.heatMap;
+    var heatMap = this.state.heatMap;
     var newData = [];
     var hasPickup = this.state.pickup;
     var hasDropoff = this.state.dropoff;
