@@ -1,8 +1,7 @@
 const DATABASE_URL = process.env.DATABASE_URL||
 "postgres:postgres:postgres@localhost:5432/godber";
 const PORT = process.env.PORT || 3000;
-const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY ||
-"GOOGLE API KEY HERE";
+const GOOGLE_MAPS_API_KEY = process.env.GOOGLE_MAPS_API_KEY;
 
 
 exports.DATABASE_URL = DATABASE_URL;
