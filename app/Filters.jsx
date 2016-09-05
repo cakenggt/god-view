@@ -2,7 +2,8 @@ import React from 'react';
 
 export var Time = React.createClass({
   propTypes: {
-    filterKey: React.PropTypes.string.isRequired
+    filterKey: React.PropTypes.string.isRequired,
+    setFilter: React.PropTypes.func.isRequired
   },
   getInitialState: function(){
     return {
@@ -72,7 +73,8 @@ export var Time = React.createClass({
 
 export var Day = React.createClass({
   propTypes: {
-    filterKey: React.PropTypes.string.isRequired
+    filterKey: React.PropTypes.string.isRequired,
+    setFilter: React.PropTypes.func.isRequired
   },
   getInitialState: function(){
     return {

@@ -1,8 +1,26 @@
 import React from 'react';
+import moment from 'moment-timezone';
+
+var filteredTripsPropType = React.PropTypes.arrayOf(
+  React.PropTypes.shape({
+    base: React.PropTypes.string,
+    dropoff: React.PropTypes.shape({
+      type: React.PropTypes.string,
+      coordinates: React.PropTypes.arrayOf(React.PropTypes.number)
+    }),
+    pickup: React.PropTypes.shape({
+      type: React.PropTypes.string,
+      coordinates: React.PropTypes.arrayOf(React.PropTypes.number)
+    }),
+    time: React.PropTypes.instanceOf(moment)
+  })
+);
 
 export var Coords = React.createClass({
   propTypes: {
-    addMapReady: React.PropTypes.func.isRequired
+    addMapReady: React.PropTypes.func.isRequired,
+    polyNodes: React.PropTypes.array.isRequired,
+    setPoly: React.PropTypes.func.isRequired
   },
   getInitialState: function(){
     var polyNodes = this.props.polyNodes;
@@ -111,6 +129,11 @@ export var Coords = React.createClass({
 });
 
 export var MaxRows = React.createClass({
+  propTypes: {
+    maxRows: React.PropTypes.number.isRequired,
+    setMaxRows: React.PropTypes.func.isRequired,
+    totalRows: React.PropTypes.number.isRequired
+  },
   getInitialState: function(){
     return {
       maxRows: this.props.maxRows
@@ -142,6 +165,9 @@ export var MaxRows = React.createClass({
 });
 
 export var Stats = React.createClass({
+  propTypes: {
+    filteredTrips: filteredTripsPropType
+  },
   render: function(){
     var trips = this.props.filteredTrips;
     var earliestDate = null;
@@ -175,7 +201,8 @@ Latest Trip: ${latestDate.format("YYYY/MM/DD")}`
 
 export var HeatMap = React.createClass({
   propTypes: {
-    addMapReady: React.PropTypes.func.isRequired
+    addMapReady: React.PropTypes.func.isRequired,
+    filteredTrips: filteredTripsPropType
   },
   getInitialState: function(){
     return {

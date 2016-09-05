@@ -52,7 +52,6 @@ var Container = React.createClass({
                 <Coords
                   polyNodes={this.state.polyNodes.slice(0)}
                   setPoly={this.setPoly}
-                  map={this.state.map}
                   addMapReady={this.addMapReady}
                   />
                 <MaxRows
