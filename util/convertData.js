@@ -6,7 +6,11 @@ var argv = require('yargs').argv;
 var credentials = require('../credentials');
 
 var db = new Sequelize(credentials.DATABASE_URL, {
-  logging: false
+  logging: false,
+  dialect: 'postgres',
+  dialectOptions: {
+    ssl: true
+  }
 });
 
 //sync all models and erase previous data
@@ -19,7 +23,6 @@ var models = db.import('../models');
 var basePath = 'uber-tlc-foil-response/uber-trip-data/uber-raw-data-';
 
 var limit = argv.records || 10000;
-console.log(argv);
 
 var rowNum = -1;
 var result = [];
