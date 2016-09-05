@@ -1,5 +1,6 @@
 import React from 'react';
 
+//This filter filters out rides by hour
 export var Time = React.createClass({
   propTypes: {
     filterKey: React.PropTypes.string.isRequired,
@@ -84,6 +85,7 @@ export var Time = React.createClass({
   }
 });
 
+//This filter filters out rides by day of week
 export var Day = React.createClass({
   propTypes: {
     filterKey: React.PropTypes.string.isRequired,

@@ -1,6 +1,7 @@
 import React from 'react';
 import moment from 'moment-timezone';
 
+//This is the prop type for the filtered trips array, used for validation
 var filteredTripsPropType = React.PropTypes.arrayOf(
   React.PropTypes.shape({
     base: React.PropTypes.string,
@@ -16,6 +17,7 @@ var filteredTripsPropType = React.PropTypes.arrayOf(
   })
 );
 
+//Shows a range of pre-selected neighborhoods
 export var Neighborhoods = React.createClass({
   propTypes: {
     addMapReady: React.PropTypes.func.isRequired,
@@ -109,6 +111,7 @@ export var Neighborhoods = React.createClass({
   }
 });
 
+//This is the pane where you can edit coordinates and have new ones show up
 export var Coords = React.createClass({
   propTypes: {
     addMapReady: React.PropTypes.func.isRequired,
@@ -221,6 +224,7 @@ export var Coords = React.createClass({
   }
 });
 
+//You set the maximum rows you want returned from the server here
 export var MaxRows = React.createClass({
   propTypes: {
     maxRows: React.PropTypes.number.isRequired,
@@ -263,6 +267,7 @@ export var MaxRows = React.createClass({
   }
 });
 
+//This is a screen of interesting stats
 export var Stats = React.createClass({
   propTypes: {
     filteredTrips: filteredTripsPropType
@@ -298,6 +303,7 @@ Latest Trip: ${latestDate.format("YYYY/MM/DD")}`
   }
 });
 
+//This is the toggle for the heatmaps
 export var HeatMap = React.createClass({
   propTypes: {
     addMapReady: React.PropTypes.func.isRequired,

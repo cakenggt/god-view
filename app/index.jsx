@@ -89,11 +89,16 @@ var Container = React.createClass({
       </div>
     );
   },
+  /**
+   * This function is provided to let any components which need the map or google
+   * objects to run their specific functions when those become available.
+   */
   addMapReady: function(fun){
     var onMapReady = this.state.onMapReady;
     onMapReady.push(fun);
     this.setState({onMapReady: onMapReady});
   },
+  //This runs when the map object is obtained. It also means the google object exists
   getMapReference: function(mapProps, map){
     var polygon = new window.google.maps.Polygon({
       paths: [],
@@ -108,6 +113,7 @@ var Container = React.createClass({
 
     this.setState({polygon: polygon});
 
+    //This goes through all the map ready functions and executes them
     var mapReadyFunctions = this.state.onMapReady;
     for (var f = 0; f < mapReadyFunctions.length; f++){
       var fun = mapReadyFunctions[f];
@@ -130,6 +136,7 @@ var Container = React.createClass({
     });
     polygon.setMap(map);
   },
+  //This gets the network to make a request with the current polygon
   getTripsAndApplyFilters(options){
     var maxRows = this.state.maxRows;
     var polyNodes = this.state.polyNodes;
@@ -140,6 +147,7 @@ var Container = React.createClass({
     Network.getAll(this, polyNodes, maxRows)
     .then(this.applyFilters);
   },
+  //This method applies the filters one by one
   applyFilters: function(){
     var filterKeys = Object.keys(this.state.filters);
     var filteredTrips = this.state.trips.filter(function(val, index, array){
@@ -153,12 +161,20 @@ var Container = React.createClass({
     }, this);
     this.setState({filteredTrips: filteredTrips});
   },
+  /**
+   * This method is provided to the filters so that they can provide their
+   * own methods for the Array.filter function.
+   */
   setFilter: function(key, filter){
     var filters = this.state.filters;
     filters[key] = filter;
     this.setState({filters: filters});
     this.applyFilters();
   },
+  /**
+   * This method not only sets the polygon coordinates, but also reapplies
+   * the listeners to the polygon paths and gets new trip data from the server.
+   */
   setPoly: function(polyNodes){
     $('.button-selected').removeClass('button-selected');
     this.setState({polyNodes: polyNodes});
