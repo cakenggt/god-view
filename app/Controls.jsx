@@ -234,18 +234,23 @@ var HeatMap = React.createClass({
       <div
         className="control">
         <p>Heat Map</p>
-        <input
-          type="checkbox"
-          checked={this.state.pickup}
-          onChange={this.checkPickup}
-          />
-        Pickup &nbsp;
-        <input
-          type="checkbox"
-          checked={this.state.dropoff}
-          onChange={this.checkDropoff}
-          />
-          Dropoff
+        <label>
+          <input
+            type="checkbox"
+            checked={this.state.pickup}
+            onChange={this.checkPickup}
+            />
+          Pickup
+        </label>
+        &nbsp;
+        <label>
+          <input
+            type="checkbox"
+            checked={this.state.dropoff}
+            onChange={this.checkDropoff}
+            />
+            Dropoff
+        </label>
       </div>
     )
   },
