@@ -121,6 +121,7 @@ var Container = React.createClass({
     google.maps.event.addListener(polygon, 'dragend', function(){
       var polyNodes = polygon.getPaths().getAt(0).getArray();
       self.setState({polyNodes: polyNodes, dragging: false});
+      $('.button-selected').removeClass('button-selected');
       self.getTripsAndApplyFilters({polyNodes: polyNodes});
     });
 
@@ -159,6 +160,7 @@ var Container = React.createClass({
     this.applyFilters();
   },
   setPoly: function(polyNodes){
+    $('.button-selected').removeClass('button-selected');
     this.setState({polyNodes: polyNodes});
     this.state.polygon.setPaths(polyNodes);
 
@@ -167,6 +169,7 @@ var Container = React.createClass({
     //This prevents the set_at listener from firing when the polygon is dragged
     var polygonChangeListener = function(){
       if (self.state.dragging == false){
+        $('.button-selected').removeClass('button-selected');
         var polyNodes = this.getArray();
         self.setState({polyNodes: polyNodes});
         self.getTripsAndApplyFilters({polyNodes: polyNodes});

@@ -35,7 +35,7 @@ export var Time = React.createClass({
           <i
             className="material-icons md-18"
             data-ot="Filters for trips between the provided 24-hour format hours for all days.
-            Inputting a larger start hour than end hour will filter across day boundaries.
+            Inputting a later start hour than end hour will filter across day boundaries.
             The hours will be interpreted in EST.">help_outline</i>
         </p>
         <select

@@ -54,28 +54,34 @@ pre {
   position: relative;
   float: right;
 }
-.resetBtn {
-  padding: 3px;
-  margin: -3px 0px;
-  float: right;
+.button {
+  padding: 3px 5px;
+  margin: 3px 0px;
+  margin-right: 3px;
   border-radius: 3px;
+  border: 1px solid #e4e4e4;
   background-color: #e4e4e4;
   cursor: pointer;
+  display: inline-block;
+  transition: all 0.2s ease;
+}
+.button:hover {
+  border: 1px solid black;
+}
+.button-selected {
+  background-color: #a5a5a5;
+  color: white;
+  border-color: #a5a5a5
+}
+.resetBtn {
+  margin: -3px 0px;
+  float: right;
 }
 .heatMapCheck {
   margin-right: 3px;
 }
 .heatMapLabel {
   padding-right: 6px;
-}
-.presetBtn {
-  padding: 3px 5px;
-  margin: 3px 0px;
-  margin-right: 3px;
-  border-radius: 3px;
-  background-color: #e4e4e4;
-  cursor: pointer;
-  display: inline-block
 }
 .material-icons.md-18 { font-size: 18px; }
 .material-icons.md-24 { font-size: 24px; }

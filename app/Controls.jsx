@@ -87,9 +87,12 @@ export var Neighborhoods = React.createClass({
     var buttons = this.state.neighborhoods.map(function(element){
       return (
         <span
-          className="presetBtn"
+          className="button presetBtn"
           key={element.name}
-          onClick={function(){self.props.setPoly(element.points)}}>
+          onClick={function(e){
+            self.props.setPoly(element.points);
+            $(e.target).addClass('button-selected');
+          }}>
           {element.name}
         </span>
       );
@@ -164,7 +167,7 @@ export var Coords = React.createClass({
         className="control">
         <p>Polygon Coordinates
           <span
-            className="resetBtn"
+            className="button resetBtn"
             onClick={this.reset}>Reset</span>
         </p>
 
@@ -248,6 +251,12 @@ export var MaxRows = React.createClass({
   setMaxRows: function(e){
     var maxRows = parseInt(e.target.value);
     if (!isNaN(maxRows)){
+      if (maxRows > this.props.totalRows){
+        maxRows = this.props.totalRows;
+      }
+      else if (maxRows < 0){
+        maxRows = 0;
+      }
       this.setState({maxRows: maxRows});
       this.props.setMaxRows(maxRows);
     }
