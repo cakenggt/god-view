@@ -22,14 +22,13 @@ Run the upload script with an optional `records` argument for how many records t
 
 On the Heroku implementation of this, only 10000 records can be uploaded.
 
-Your google maps api key needs to be in the credentials file under the `GOOGLE_MAPS_API_KEY` variable.
+Your google maps api key needs to be in the environment variable `GOOGLE_MAPS_API_KEY`
 
 ### credentials.js
 
 The file `credentials.js` needs to be set up in your main directory. It should export the following keys:
 * `DATABASE_URL` This is the url of the postgres db you are connecting to. See details in the setup section above.
 * `PORT` This is the port the app will run on.
-* `GOOGLE_MAPS_API_KEY` The is the Google maps api key that you receive from google in order to use the Google maps api.
 
 The keys can be hard coded into the credentials file, or loaded in the file using `process.env.KEY` to access the system variables.
 

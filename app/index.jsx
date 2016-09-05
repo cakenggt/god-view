@@ -2,7 +2,6 @@ import 'babel-polyfill';
 import React from 'react';
 import {render} from 'react-dom';
 import * as Network from './Network';
-import {GOOGLE_MAPS_API_KEY} from '../credentials';
 import {GoogleApiWrapper, Map} from 'google-maps-react';
 import {Scrollbars} from 'react-custom-scrollbars';
 import {Neighborhoods, Coords, MaxRows, Stats, HeatMap} from './Controls.jsx';

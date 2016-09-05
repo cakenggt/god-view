@@ -22,7 +22,12 @@ var config = {
   },
   resolve: {
     extensions: ['', '.json', '.jsx', '.js']
-  }
+  },
+  plugins: [
+    new webpack.DefinePlugin({
+        'GOOGLE_MAPS_API_KEY': JSON.stringify(process.env.GOOGLE_MAPS_API_KEY)
+    }),
+  ]
 };
 
 module.exports = config;
