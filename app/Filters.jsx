@@ -46,11 +46,15 @@ var Time = React.createClass({
           type="Number"
           onChange={this.timeMinChange}
           value={this.state.timeMin}
+          min={0}
+          max={23}
           className="hourInput"
           /> to <input
           type="Number"
           onChange={this.timeMaxChange}
           value={this.state.timeMax}
+          min={0}
+          max={23}
           className="hourInput"
           />
       </div>
