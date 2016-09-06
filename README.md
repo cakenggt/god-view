@@ -44,9 +44,16 @@ I chose React because of it's component-based approach, which would allow new fi
 
 Any React element in the Controls should be able to affect someting fundamental about the app, such as adding a heatmap or determining how many rows will be downloaded from the server. These elements benefit from getting `addMapReady` in their props, as any function submitted to that method will be run once the global `google` variable is ready and the `map` instance is created. Additionally, when modifying the polygon, it helps to get `setPoly` as a prop, as that lets you pass in a list of `google.LatLng` objects as the coordinates of the polygon.
 
+These are the signatures for the above methods:
+* `addMapReady(function(map))` This takes in a function which takes in a single map instance.
+* `setPoly(Array<google.LatLng>)` This sets the polygon on the map with the array of `google.LatLng` as the single parameter.
+
 ### Filters
 
-Any react elements which filter down the returned dataset from the server should be in the filters section. You should give these elements the `setFilter` method, as any function you give to this method will be used for `Array.filter` on the returned results. Additionally, you **must** include the prop `filterKey`, which is the key that that component's filter function is stored under. Thus, it is safe to call `setFilter` more than once for a filter Component, for example, when you are changing which times should be displayed.
+Any react elements which filter down the returned dataset from the server should be in the filters section. You should give these elements the `setFilter` method, as any function you give to this method will be used for `Array.filter` on the returned results. Additionally, you **must** include a key, which is the key that that component's filter function is stored under. Thus, it is safe to call `setFilter` more than once for a filter Component, for example, when you are changing which times should be displayed.
+
+Here is the signature for the above method:
+* `setFilter(string, function)` The string is the key for this component, which allows you to update the filter later. The function will be used for `Array.filter` and must follow that same convention. [Here is a link to the documentation for Array.filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter)
 
 ## Design
 
