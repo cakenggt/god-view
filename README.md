@@ -2,6 +2,8 @@
 
 This webapp allows you to look at the New York Uber data collected by the City Taxi and Limousine Commission (TLC) with several tools using Google Maps.
 
+See the app in action [here](https://god-view.herokuapp.com/)!
+
 ## Setup
 
 Install a PostgreSQL db and point your `DATABASE_URL` variable in `credentals.js` to it. The url for the db should be in the following format:
